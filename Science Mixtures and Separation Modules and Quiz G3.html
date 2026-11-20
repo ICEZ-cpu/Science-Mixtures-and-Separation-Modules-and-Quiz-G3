@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 6: Mixtures and Separation — Fun Science Lab!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Typography & Playful Science Theme */
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #ecfdf5;
+      background-image: radial-gradient(#a7f3d0 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-comic {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Comic Card & Button Depth */
+    .comic-card {
+      border: 3px solid #0f172a;
+      box-shadow: 6px 6px 0px #0f172a;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .comic-card-sm {
+      border: 2.5px solid #0f172a;
+      box-shadow: 4px 4px 0px #0f172a;
+    }
+
+    .comic-btn {
+      border: 2.5px solid #0f172a;
+      box-shadow: 4px 4px 0px #0f172a;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .comic-btn:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #0f172a;
+    }
+
+    .comic-btn:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #0f172a;
+    }
+
+    /* Animations */
+    @keyframes popIn {
+      0% { transform: scale(0.88); opacity: 0; }
+      80% { transform: scale(1.03); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes flameFlicker {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(1.14); }
+    }
+
+    .animate-pop {
+      animation: popIn 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .animate-wobble {
+      animation: wobble 0.38s ease-in-out;
+    }
+
+    .animate-float {
+      animation: floatBob 2.8s ease-in-out infinite;
+    }
+
+    .animate-flame {
+      transform-origin: bottom center;
+      animation: flameFlicker 0.6s ease-in-out infinite;
+    }
+
+    .nav-tab.active {
+      background-color: #fde047;
+      color: #0f172a;
+      transform: translateY(-2px);
+    }
+
+    .hotspot-btn {
+      cursor: pointer;
+      transition: transform 0.18s ease;
+    }
+
+    .hotspot-btn:hover {
+      transform: scale(1.08);
+    }
+
+    /* Print Styling for Certificate */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #certificate-box, #certificate-box * {
+        visibility: visible;
+      }
+      #certificate-box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- Floating Sound Effect / Feedback Toast -->
+  <div id="sfx-toast" class="fixed top-24 right-4 z-40 hidden pointer-events-none">
+    <div id="sfx-text" class="comic-card-sm bg-yellow-300 text-slate-900 font-comic text-base sm:text-lg px-4 py-2 rounded-2xl transform rotate-2">
+      MIXED! 🧪
+    </div>
+  </div>
+
+  <!-- Top Navigation & Brand Header -->
+  <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 text-white border-b-4 border-slate-900 sticky top-0 z-30 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <!-- Brand Logo with Fallback SVG -->
+        <div class="bg-white px-2.5 py-1.5 rounded-2xl border-2 border-slate-900 shadow-sm flex items-center gap-2 shrink-0">
+          <img
+            src="Sujato andika nanda (7).png"
+            alt="IMPROVE Brand Logo"
+            class="h-8 sm:h-10 w-auto object-contain"
+            onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+          />
+          <div class="hidden flex items-center gap-1.5 font-comic font-extrabold text-slate-900 text-xs sm:text-sm">
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 18 L12 6 L16 11 L20 4" fill="none" stroke="#0284c7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="20" cy="4" r="3" fill="#eab308" />
+            </svg>
+            <span>IMPROVE</span>
+          </div>
+        </div>
+
+        <span class="bg-yellow-300 text-slate-900 font-comic font-bold px-2.5 py-1 rounded-xl border-2 border-slate-900 text-xs sm:text-sm shrink-0">
+          CH. 6
+        </span>
+
+        <div>
+          <h1 class="text-xl sm:text-2xl md:text-3xl font-bold tracking-wide leading-tight">
+            Mixtures and Separation! 🧪🧲
+          </h1>
+          <p class="text-xs sm:text-sm text-emerald-100 font-semibold">
+            Interactive Science Lab &amp; Word Quest • <span class="text-yellow-200 font-extrabold">Make by : Sujato Andika Nanda, PC®</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Score Pill -->
+      <div class="flex items-center gap-2 bg-slate-900/35 px-3.5 py-1.5 rounded-2xl border-2 border-white/40">
+        <span class="text-xs sm:text-sm font-bold">⭐ Lab Points:</span>
+        <span id="score-display" class="bg-yellow-300 text-slate-900 font-comic font-bold px-3 py-0.5 rounded-lg border-2 border-slate-900 text-base">
+          0
+        </span>
+      </div>
+    </div>
+
+    <!-- Quick Jump Navigation Tabs -->
+    <nav class="bg-slate-900/30 border-t-2 border-slate-900/30">
+      <div class="max-w-6xl mx-auto px-3 py-2 flex overflow-x-auto gap-2">
+        <button onclick="switchTab('camping')" id="tab-camping" class="nav-tab active comic-btn bg-white text-slate-900 font-comic text-xs sm:text-sm px-3.5 py-1.5 rounded-xl whitespace-nowrap">
+          🏕️ 1. Camping &amp; Video
+        </button>
+        <button onclick="switchTab('mixtures')" id="tab-mixtures" class="nav-tab comic-btn bg-white text-slate-900 font-comic text-xs sm:text-sm px-3.5 py-1.5 rounded-xl whitespace-nowrap">
+          🥣 2. Mixtures &amp; Properties
+        </button>
+        <button onclick="switchTab('dissolve')" id="tab-dissolve" class="nav-tab comic-btn bg-white text-slate-900 font-comic text-xs sm:text-sm px-3.5 py-1.5 rounded-xl whitespace-nowrap">
+          🧂 3. Soluble vs. Insoluble
+        </button>
+        <button onclick="switchTab('separate')" id="tab-separate" class="nav-tab comic-btn bg-white text-slate-900 font-comic text-xs sm:text-sm px-3.5 py-1.5 rounded-xl whitespace-nowrap">
+          🧲 4. Separation Lab
+        </button>
+        <button onclick="switchTab('quiz')" id="tab-quiz" class="nav-tab comic-btn bg-yellow-300 text-slate-900 font-comic text-xs sm:text-sm px-3.5 py-1.5 rounded-xl whitespace-nowrap">
+          🧩 5. Quiz &amp; Word Solving!
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6 sm:py-8 space-y-8">
+
+    <!-- =========================================================== -->
+    <!-- SECTION 1: CAMPING MYSTERY & SCIENCE VIDEO CORNER           -->
+    <!-- =========================================================== -->
+    <section id="sec-camping" class="space-y-6 animate-pop">
+      <!-- Learning Goals & Key Science Clues -->
+      <div class="comic-card bg-amber-100 rounded-3xl p-5 sm:p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
+          <div class="lg:col-span-2 space-y-2">
+            <span class="inline-block bg-amber-400 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              🎯 WHAT WILL I LEARN IN CHAPTER 6?
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">
+              Mixtures, Dissolving &amp; Clever Separation!
+            </h2>
+            <ul class="space-y-1.5 text-sm sm:text-base font-bold text-slate-800 pt-1">
+              <li>✓ Describe a <strong>mixture</strong> as containing two or more materials that can be physically separated.</li>
+              <li>✓ Explain why materials usually <strong>retain</strong> their properties within a mixture.</li>
+              <li>✓ Separate <strong>solid/solid mixtures</strong> (by size with sieves or magnetic attraction with magnets).</li>
+              <li>✓ Understand <strong>soluble</strong> vs. <strong>insoluble</strong> solids, and separate insoluble solids from liquids.</li>
+            </ul>
+          </div>
+
+          <div class="comic-card-sm bg-white rounded-2xl p-4 space-y-1.5 text-xs sm:text-sm">
+            <h3 class="font-comic font-bold text-base text-emerald-700 border-b-2 border-slate-200 pb-1">
+              🔑 Science Clues Dictionary
+            </h3>
+            <p><strong>Mixture:</strong> Two or more materials mixed together that can be physically separated.</p>
+            <p><strong>Retain:</strong> To continue to keep something (like a material keeping its own property).</p>
+            <p><strong>Solute:</strong> A solid that dissolves in a liquid (e.g., salt or sugar).</p>
+            <p><strong>Solvent:</strong> The liquid in which a solid dissolves (e.g., water).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Camping Pot Mystery Scene -->
+      <div class="comic-card bg-white rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="bg-emerald-300 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              🏕️ CAMPING MYSTERY SCENE
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+              Cyrus &amp; Tim’s Dirty River Water Pot!
+            </h3>
+          </div>
+          <span class="bg-sky-100 border-2 border-slate-900 font-comic text-xs sm:text-sm px-3 py-1.5 rounded-xl">
+            Click objects in the pot! 👇
+          </span>
+        </div>
+
+        <p class="text-sm sm:text-base font-semibold text-slate-700">
+          Cyrus went camping with his friends and collected river water in a pot. As Cyrus heats the water over the campfire, Tim shouts: <em>"We cannot use this water! There are some things inside. It looks dirty!"</em>
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 items-center">
+          <!-- Detailed SVG Camping Scene -->
+          <div class="lg:col-span-2 bg-gradient-to-b from-indigo-950 via-slate-800 to-emerald-900 rounded-2xl border-3 border-slate-900 p-3">
+            <svg viewBox="0 0 680 340" class="w-full h-auto rounded-xl border-2 border-slate-700 bg-gradient-to-b from-sky-900 via-teal-950 to-emerald-950">
+              <!-- Stars & Moon -->
+              <circle cx="590" cy="55" r="24" fill="#fef08a" />
+              <circle cx="110" cy="45" r="2.5" fill="#ffffff" />
+              <circle cx="210" cy="75" r="2" fill="#fde047" />
+              <circle cx="450" cy="40" r="2.5" fill="#ffffff" />
+              <circle cx="510" cy="80" r="2" fill="#bae6fd" />
+
+              <!-- Forest Pine Trees Background -->
+              <polygon points="60,230 95,130 130,230" fill="#14532d" stroke="#052e16" stroke-width="2" />
+              <polygon points="580,230 620,120 660,230" fill="#14532d" stroke="#052e16" stroke-width="2" />
+
+              <!-- Ground -->
+              <rect x="0" y="225" width="680" height="115" fill="#166534" />
+
+              <!-- Tripod & Campfire -->
+              <line x1="255" y1="115" x2="215" y2="275" stroke="#92400e" stroke-width="6" stroke-linecap="round" />
+              <line x1="255" y1="115" x2="295" y2="275" stroke="#92400e" stroke-width="6" stroke-linecap="round" />
+              <line x1="255" y1="115" x2="255" y2="155" stroke="#cbd5e1" stroke-width="4" />
+
+              <!-- Fire Logs & Flames -->
+              <rect x="215" y="268" width="80" height="10" rx="4" transform="rotate(-12 255 273)" fill="#78350f" stroke="#0f172a" stroke-width="2" />
+              <rect x="215" y="268" width="80" height="10" rx="4" transform="rotate(12 255 273)" fill="#92400e" stroke="#0f172a" stroke-width="2" />
+              <g class="animate-flame">
+                <path d="M235,270 Q245,230 255,220 Q265,230 275,270 Z" fill="#f97316" />
+                <path d="M243,270 Q255,242 255,236 Q255,242 267,270 Z" fill="#facc15" />
+              </g>
+
+              <!-- Hanging Cooking Pot with River Water -->
+              <g transform="translate(195, 150)">
+                <rect x="0" y="12" width="120" height="72" rx="14" fill="#475569" stroke="#0f172a" stroke-width="3.5" />
+                <!-- Water inside pot -->
+                <rect x="5" y="30" width="110" height="50" rx="10" fill="#38bdf8" fill-opacity="0.85" />
+                <!-- Steam puffs -->
+                <path d="M35,5 Q28,-8 38,-18" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
+                <path d="M85,5 Q92,-8 82,-18" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
+
+                <!-- Clickable Item 1: Twigs -->
+                <g class="hotspot-btn" onclick="inspectCampItem('twig')">
+                  <rect x="14" y="34" width="38" height="10" rx="5" transform="rotate(-15 33 39)" fill="#a16207" stroke="#0f172a" stroke-width="2" />
+                  <circle cx="33" cy="24" r="10" fill="#fde047" stroke="#0f172a" stroke-width="2" />
+                  <text x="33" y="28" text-anchor="middle" font-size="11" font-weight="bold">🪵</text>
+                </g>
+
+                <!-- Clickable Item 2: Leaf -->
+                <g class="hotspot-btn" onclick="inspectCampItem('leaf')">
+                  <ellipse cx="64" cy="48" rx="13" ry="7" transform="rotate(20 64 48)" fill="#4ade80" stroke="#0f172a" stroke-width="2" />
+                  <circle cx="64" cy="24" r="10" fill="#fde047" stroke="#0f172a" stroke-width="2" />
+                  <text x="64" y="28" text-anchor="middle" font-size="11" font-weight="bold">🍃</text>
+                </g>
+
+                <!-- Clickable Item 3: Pebbles -->
+                <g class="hotspot-btn" onclick="inspectCampItem('pebble')">
+                  <ellipse cx="94" cy="64" rx="11" ry="8" fill="#94a3b8" stroke="#0f172a" stroke-width="2" />
+                  <circle cx="96" cy="24" r="10" fill="#fde047" stroke="#0f172a" stroke-width="2" />
+                  <text x="96" y="28" text-anchor="middle" font-size="11" font-weight="bold">🪨</text>
+                </g>
+              </g>
+
+              <!-- Tim Character (Worried) -->
+              <g transform="translate(365, 130)">
+                <path d="M15,42 Q18,10 42,10 Q66,10 69,42 Z" fill="#0f172a" />
+                <circle cx="42" cy="48" r="24" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5" />
+                <circle cx="33" cy="46" r="8" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
+                <circle cx="51" cy="46" r="8" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
+                <circle cx="33" cy="46" r="2.5" fill="#0f172a" />
+                <circle cx="51" cy="46" r="2.5" fill="#0f172a" />
+                <!-- Worried mouth -->
+                <path d="M35,60 Q42,54 49,60" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" />
+                <rect x="20" y="74" width="44" height="55" rx="8" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5" />
+                <text x="42" y="106" text-anchor="middle" fill="#ffffff" font-family="Fredoka" font-size="12">TIM</text>
+              </g>
+
+              <!-- Cyrus Character -->
+              <g transform="translate(465, 132)">
+                <circle cx="42" cy="46" r="24" fill="#d97706" stroke="#0f172a" stroke-width="2.5" />
+                <path d="M18,36 Q42,14 66,36" fill="#0f172a" />
+                <circle cx="34" cy="45" r="3" fill="#0f172a" />
+                <circle cx="50" cy="45" r="3" fill="#0f172a" />
+                <path d="M35,56 Q42,63 49,56" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" />
+                <rect x="20" y="72" width="44" height="55" rx="8" fill="#f97316" stroke="#0f172a" stroke-width="2.5" />
+                <text x="42" y="104" text-anchor="middle" fill="#ffffff" font-family="Fredoka" font-size="11">CYRUS</text>
+              </g>
+
+              <!-- Speech Bubble -->
+              <rect x="345" y="25" width="305" height="72" rx="16" fill="#ffffff" stroke="#0f172a" stroke-width="3" />
+              <text x="497" y="50" text-anchor="middle" fill="#0f172a" font-family="Fredoka" font-weight="bold" font-size="13">
+                "We cannot use this water! It looks dirty!"
+              </text>
+              <text x="497" y="72" text-anchor="middle" fill="#047857" font-family="Nunito" font-weight="800" font-size="12">
+                Can we separate the solids from the water?
+              </text>
+            </svg>
+          </div>
+
+          <!-- Camping Detective Inspector Box -->
+          <div id="camp-inspector" class="comic-card-sm bg-emerald-50 rounded-2xl p-5 space-y-3">
+            <span class="bg-yellow-300 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              🕵️ POT DETECTIVE
+            </span>
+            <h4 id="camp-title" class="text-xl font-bold text-slate-900">
+              What’s inside the river water pot?
+            </h4>
+            <p id="camp-desc" class="text-sm text-slate-700 font-semibold leading-relaxed">
+              Click the <strong>🪵 Twig</strong>, <strong>🍃 Leaf</strong>, or <strong>🪨 Pebble</strong> inside the pot to check if it is a solid or liquid, and how Cyrus can remove it!
+            </p>
+            <div id="camp-tip" class="bg-white p-3 rounded-xl border-2 border-slate-900 text-xs font-bold text-emerald-900">
+              💡 Hint: River water + floating twigs, leaves &amp; pebbles = a <strong>solid/liquid mixture</strong>!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Science Video Corner with Step-by-Step Video Explanation -->
+      <div class="comic-card bg-cyan-50 rounded-3xl p-5 sm:p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+          <div class="space-y-3">
+            <span class="bg-rose-500 text-white font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              📺 SCIENCE VIDEO CORNER &amp; EXPLANATION
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-900">
+              Video Guide: Mixtures, Dissolving &amp; Separation!
+            </h3>
+            <p class="text-sm text-slate-700 font-semibold leading-relaxed">
+              Watch the video to see how scientists mix materials, test if solids dissolve, and use sieves or magnets to separate mixtures!
+            </p>
+            <div class="bg-white rounded-2xl border-2 border-slate-900 p-4 space-y-2 text-xs sm:text-sm font-semibold text-slate-800">
+              <p class="font-comic text-indigo-700 text-sm">📝 Video Explanation Breakdown:</p>
+              <p>1. <strong>What is a Mixture?</strong> Two or more materials together (like sand + stones or nuts + raisins) that can be physically separated.</p>
+              <p>2. <strong>Dissolving:</strong> Salt and sugar are <em>soluble</em> (dissolve in water), while sand is <em>insoluble</em> (does not dissolve).</p>
+              <p>3. <strong>Separating Mixtures:</strong> Use a <em>sieve</em> for different solid sizes, or a <em>magnet</em> for magnetic iron/steel items!</p>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="comic-card-sm bg-slate-900 rounded-2xl overflow-hidden aspect-video">
+              <iframe
+                class="w-full h-full"
+                src="https://www.youtube.com/embed/PZ8h8p8eF1c"
+                title="Mixtures and Separation Science Video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <p class="text-center text-xs font-bold text-slate-600">
+              Educational Video: Mixtures &amp; Separation Methods
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- SECTION 2: WHAT IS A MIXTURE? & PROPERTIES RETAINED         -->
+    <!-- =========================================================== -->
+    <section id="sec-mixtures" class="hidden space-y-6 animate-pop">
+      <!-- Types of Mixtures Card -->
+      <div class="comic-card bg-white rounded-3xl p-5 sm:p-6 space-y-5">
+        <div>
+          <span class="bg-amber-300 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+            🥣 LESSON 1: WHAT IS A MIXTURE?
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
+            Solid/Solid &amp; Solid/Liquid Mixtures!
+          </h2>
+          <p class="text-sm sm:text-base font-semibold text-slate-700 mt-1">
+            Picking out an object from among many different objects is a form of <strong>physical separation</strong>. After picking out stones from sand or water, do they still look and feel the same? <strong>YES!</strong>
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Solid / Solid Mixtures -->
+          <div class="comic-card-sm bg-amber-50 rounded-2xl p-4 space-y-3">
+            <h3 class="font-comic font-bold text-lg text-slate-900">🧱 Solid / Solid Mixtures</h3>
+            <p class="text-xs sm:text-sm font-semibold text-slate-700">A mixture can contain different solids mixed together:</p>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold">
+              <div class="bg-white p-2.5 rounded-xl border-2 border-slate-900">
+                <div class="text-2xl">🏖️🪨</div>
+                <p class="mt-1">Sand &amp; Stones</p>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border-2 border-slate-900">
+                <div class="text-2xl">🍫🌾</div>
+                <p class="mt-1">Chocolate Powder &amp; Flour</p>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border-2 border-slate-900">
+                <div class="text-2xl">🥜🍇</div>
+                <p class="mt-1">Nuts &amp; Raisins</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Solid / Liquid Mixtures -->
+          <div class="comic-card-sm bg-sky-50 rounded-2xl p-4 space-y-3">
+            <h3 class="font-comic font-bold text-lg text-slate-900">💧 Solid / Liquid Mixtures</h3>
+            <p class="text-xs sm:text-sm font-semibold text-slate-700">A mixture can also contain solids and liquids together:</p>
+            <div class="grid grid-cols-2 gap-3 text-center text-xs font-bold">
+              <div class="bg-white p-3 rounded-xl border-2 border-slate-900">
+                <div class="text-2xl">⏳💧</div>
+                <p class="mt-1">Sand &amp; Water</p>
+              </div>
+              <div class="bg-white p-3 rounded-xl border-2 border-slate-900">
+                <div class="text-2xl">🪨💧</div>
+                <p class="mt-1">Stones &amp; Water</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Properties Retained Lab: Plastic Balls vs Sponge Balls & Physical Models -->
+      <div class="comic-card bg-purple-50 rounded-3xl p-5 sm:p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="bg-purple-300 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              🏀 LESSON 2: PROPERTIES RETAINED LAB
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+              Plastic Balls vs. Sponge Balls Mixer!
+            </h3>
+          </div>
+          <button onclick="mixBallsDemo()" class="comic-btn bg-yellow-300 hover:bg-yellow-400 font-comic text-sm px-4 py-2 rounded-xl">
+            🌀 Mix &amp; Inspect Balls!
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
+          <!-- Interactive SVG Ball Mixer & Physical Model -->
+          <div class="bg-white rounded-2xl border-2 border-slate-900 p-4">
+            <svg viewBox="0 0 380 210" class="w-full h-auto">
+              <!-- Bowl -->
+              <path d="M55,65 L325,65 L290,165 Q285,178 270,178 L110,178 Q95,178 90,165 Z" fill="#e0f2fe" stroke="#0f172a" stroke-width="3.5" />
+              <!-- Hard Smooth Blue Plastic Balls -->
+              <circle cx="110" cy="145" r="15" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5" />
+              <circle cx="145" cy="152" r="15" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5" />
+              <circle cx="128" cy="120" r="15" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5" />
+              <!-- Soft Rough Red Sponge Balls -->
+              <circle cx="220" cy="146" r="16" fill="#f43f5e" stroke="#0f172a" stroke-width="2.5" stroke-dasharray="4 2" />
+              <circle cx="256" cy="150" r="16" fill="#f43f5e" stroke="#0f172a" stroke-width="2.5" stroke-dasharray="4 2" />
+              <circle cx="238" cy="118" r="16" fill="#f43f5e" stroke="#0f172a" stroke-width="2.5" stroke-dasharray="4 2" />
+
+              <text x="128" y="42" text-anchor="middle" fill="#1d4ed8" font-family="Fredoka" font-size="13">Blue: Hard &amp; Smooth</text>
+              <text x="255" y="42" text-anchor="middle" fill="#be123c" font-family="Fredoka" font-size="13">Red: Soft &amp; Rough</text>
+              <text x="190" y="200" text-anchor="middle" fill="#0f172a" font-family="Nunito" font-weight="800" font-size="12">
+                Physical Model: Blue = Stones, Red = Sand or Water!
+              </text>
+            </svg>
+          </div>
+
+          <!-- Properties Table & Conclusion -->
+          <div class="space-y-3">
+            <div class="overflow-x-auto bg-white rounded-2xl border-2 border-slate-900">
+              <table class="w-full text-xs sm:text-sm text-left">
+                <thead class="bg-slate-900 text-white font-comic">
+                  <tr>
+                    <th class="p-2.5">Ball Type</th>
+                    <th class="p-2.5">Soft / Hard</th>
+                    <th class="p-2.5">Smooth / Rough</th>
+                  </tr>
+                </thead>
+                <tbody class="font-bold divide-y divide-slate-200">
+                  <tr>
+                    <td class="p-2.5">🔵 Plastic Ball</td>
+                    <td class="p-2.5">Hard</td>
+                    <td class="p-2.5">Smooth</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">🔴 Sponge Ball</td>
+                    <td class="p-2.5">Soft</td>
+                    <td class="p-2.5">Rough</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div id="ball-mix-result" class="bg-emerald-100 border-2 border-slate-900 rounded-xl p-3.5 text-xs sm:text-sm font-bold text-slate-900">
+              ✅ <strong>Conclusion:</strong> When we mix the balls together, the properties of each type of ball <strong>do not change</strong>! Generally, each material <strong>retains</strong> its property within a mixture.
+            </div>
+          </div>
+        </div>
+
+        <!-- Jerry's Sugar Experiment Box -->
+        <div class="bg-white rounded-2xl border-2 border-slate-900 p-4 space-y-2">
+          <h4 class="font-comic font-bold text-base sm:text-lg text-slate-900">
+            🍬 Jerry’s Sugar Experiment: Cup 1 (Sugar + Water) vs. Cup 2 (Sugar + Salt)
+          </h4>
+          <p class="text-xs sm:text-sm font-semibold text-slate-700">
+            • <strong>Cup 1:</strong> Sugar dissolves in water and seems to disappear, but the drink still tastes sweet! Sugar is <strong>soluble</strong> in water.<br />
+            • <strong>Cup 2:</strong> Mixed with salt, sugar still looks and feels the same! The properties of sugar <strong>stay the same</strong> after mixing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- SECTION 3: SOLUBLE VS. INSOLUBLE SOLIDS (DISSOLVING LAB)    -->
+    <!-- =========================================================== -->
+    <section id="sec-dissolve" class="hidden space-y-6 animate-pop">
+      <div class="comic-card bg-white rounded-3xl p-5 sm:p-6 space-y-5">
+        <div>
+          <span class="bg-sky-300 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+            🧂 LESSON 3: SOLUBLE VS. INSOLUBLE SOLIDS
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
+            Where Did the 5g of Salt Go?! 🔍💧
+          </h2>
+          <p class="text-sm sm:text-base font-semibold text-slate-700 mt-1">
+            A solid that can <strong>dissolve</strong> in a liquid to form a solid/liquid mixture is called a <strong>solute</strong>. The liquid it dissolves in is called a <strong>solvent</strong> (like water).
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <!-- Interactive Stirring Beaker -->
+          <div class="bg-sky-50 rounded-2xl border-3 border-slate-900 p-5 space-y-4">
+            <div class="flex gap-2">
+              <button onclick="runDissolveTest('salt')" id="btn-test-salt" class="comic-btn bg-yellow-300 font-comic text-xs sm:text-sm px-3.5 py-2 rounded-xl flex-1">
+                🧂 Test 5g Salt + Water
+              </button>
+              <button onclick="runDissolveTest('sand')" id="btn-test-sand" class="comic-btn bg-white font-comic text-xs sm:text-sm px-3.5 py-2 rounded-xl flex-1">
+                🏖️ Test Sand + Water
+              </button>
+            </div>
+
+            <!-- Beaker SVG -->
+            <div class="bg-white rounded-xl border-2 border-slate-900 p-3 flex justify-center">
+              <svg viewBox="0 0 260 180" class="w-full max-w-xs h-auto">
+                <!-- Beaker -->
+                <path d="M65,25 L65,155 Q65,165 75,165 L185,165 Q195,165 195,155 L195,25" fill="#f8fafc" stroke="#0f172a" stroke-width="3.5" />
+                <!-- Water (Solvent) -->
+                <path d="M68,65 L192,65 L192,155 Q192,162 185,162 L75,162 Q68,162 68,155 Z" fill="#38bdf8" fill-opacity="0.75" />
+                <text x="130" y="85" text-anchor="middle" fill="#0f172a" font-family="Fredoka" font-size="12">Water (Solvent)</text>
+
+                <!-- Insoluble Sand Layer at Bottom (Shown when sand tested) -->
+                <g id="sand-layer" class="hidden">
+                  <path d="M69,142 Q130,136 191,142 L191,155 Q191,161 185,161 L75,161 Q69,161 69,155 Z" fill="#eab308" stroke="#854d0e" stroke-width="1.5" />
+                  <text x="130" y="155" text-anchor="middle" fill="#422006" font-family="Fredoka" font-size="10">Sand (Insoluble)</text>
+                </g>
+
+                <!-- Dissolving Salt Particles -->
+                <g id="salt-particles">
+                  <circle cx="105" cy="112" r="3" fill="#ffffff" />
+                  <circle cx="130" cy="125" r="3" fill="#ffffff" />
+                  <circle cx="155" cy="115" r="3" fill="#ffffff" />
+                </g>
+              </svg>
+            </div>
+
+            <!-- Balance Scale Reading -->
+            <div class="bg-white rounded-xl border-2 border-slate-900 p-3 flex items-center justify-between text-xs sm:text-sm font-extrabold">
+              <span>⚖️ Mass Check:</span>
+              <span id="mass-readout" class="bg-emerald-200 px-3 py-1 rounded-lg border border-slate-900">
+                Water + 5g Salt = +5g Heavier!
+              </span>
+            </div>
+          </div>
+
+          <!-- Clear Explanation Card -->
+          <div id="dissolve-explanation" class="comic-card-sm bg-amber-50 rounded-2xl p-5 space-y-3">
+            <span class="bg-emerald-300 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              🧪 WHY DOES SALT SEEM TO DISAPPEAR?
+            </span>
+            <h3 id="dissolve-title" class="text-xl font-bold text-slate-900">
+              Salt is a Soluble Solid (Solute)!
+            </h3>
+            <p id="dissolve-desc" class="text-sm text-slate-800 font-semibold leading-relaxed">
+              Salt dissolves in water and seems to disappear. After adding <strong>5 g of salt</strong> to water, the water becomes <strong>5 g heavier</strong>! This proves the salt is still in the water, broken into pieces too tiny to see.
+            </p>
+            <div class="bg-white p-3 rounded-xl border-2 border-slate-900 text-xs sm:text-sm font-bold text-slate-900">
+              🚫 <strong>Insoluble Solids:</strong> Sand cannot dissolve in water — sand is an <strong>insoluble solid</strong> and stays visible!
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- SECTION 4: SEPARATION SUPER-LAB (SIEVES, MAGNETS & LIQUID)  -->
+    <!-- =========================================================== -->
+    <section id="sec-separate" class="hidden space-y-6 animate-pop">
+      <!-- A. Sieving Solids of Different Sizes -->
+      <div class="comic-card bg-white rounded-3xl p-5 sm:p-6 space-y-5">
+        <div>
+          <span class="bg-yellow-300 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+            🕸️ SEPARATION METHOD 1: SIEVING BY SIZE
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
+            Separating Fine Salt, Rice, Lentils &amp; Penne!
+          </h2>
+          <p class="text-sm sm:text-base font-semibold text-slate-700 mt-1">
+            Size order from <strong>Smallest to Biggest</strong>: <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-900">Fine salt</span> ➔ <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-900">Rice grains</span> ➔ <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-900">Lentils</span> ➔ <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-900">Penne</span>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="comic-card-sm bg-emerald-50 rounded-2xl p-4 text-xs sm:text-sm font-bold text-slate-800 space-y-1">
+            <p class="font-comic text-base text-slate-900">📏 Sieve Hole Rule:</p>
+            <p>• Solids with <strong>smaller</strong> sizes than the sieve holes <strong>can</strong> pass through.</p>
+            <p>• Solids with <strong>bigger</strong> sizes than the sieve holes <strong>cannot</strong> pass through (they stay on top!).</p>
+          </div>
+
+          <div class="comic-card-sm bg-sky-50 rounded-2xl p-4 text-xs sm:text-sm font-bold text-slate-800 space-y-1">
+            <p class="font-comic text-base text-slate-900">🪜 Step-by-Step Sieve Order (Biggest Holes ➔ Smaller Holes):</p>
+            <p><strong>Step 1 (Sieve 1 — biggest holes):</strong> Left on sieve = <strong>Penne</strong>; passes through = rice, lentils &amp; salt.</p>
+            <p><strong>Step 2 (Sieve 2):</strong> Left on sieve = <strong>Lentils</strong>; passes through = rice &amp; salt.</p>
+            <p><strong>Step 3 (Sieve 3):</strong> Left on sieve = <strong>Rice grains</strong>; passes through = <strong>Fine salt</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- B. Magnet Rescue & Joe's Box -->
+      <div class="comic-card bg-indigo-50 rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="bg-rose-400 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              🧲 SEPARATION METHOD 2: MAGNETS (SAFETY FIRST!)
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+              Iron Thumbtacks, Steel Clips &amp; Joe’s Sharp Nails Box!
+            </h3>
+          </div>
+          <button onclick="runMagnetRescue()" class="comic-btn bg-yellow-300 hover:bg-yellow-400 font-comic text-sm px-4 py-2 rounded-xl">
+            🧲 Sweep Magnet!
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
+          <div class="bg-white rounded-2xl border-2 border-slate-900 p-4">
+            <svg viewBox="0 0 360 185" class="w-full h-auto">
+              <!-- Box of mixture -->
+              <rect x="40" y="95" width="280" height="72" rx="8" fill="#fef3c7" stroke="#0f172a" stroke-width="3" />
+              <!-- Non-magnetic rice/penne/sand -->
+              <circle cx="95" cy="142" r="7" fill="#fde68a" stroke="#0f172a" stroke-width="1.5" />
+              <rect x="135" y="136" width="22" height="9" rx="3" fill="#fdba74" stroke="#0f172a" stroke-width="1.5" />
+              <circle cx="255" cy="145" r="7" fill="#fde68a" stroke="#0f172a" stroke-width="1.5" />
+              <!-- Magnetic Iron Nails / Clips (Animated lift when magnet swept!) -->
+              <g id="lifted-metals">
+                <line x1="180" y1="138" x2="196" y2="122" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+                <line x1="215" y1="142" x2="231" y2="126" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+              </g>
+
+              <!-- U-Magnet -->
+              <g id="magnet-tool" transform="translate(175, 22)">
+                <path d="M0,0 L0,28 A22,22 0 0,0 44,28 L44,0 L30,0 L30,26 A8,8 0 0,1 14,26 L14,0 Z" fill="#ef4444" stroke="#0f172a" stroke-width="2.5" />
+                <text x="22" y="-6" text-anchor="middle" fill="#0f172a" font-family="Fredoka" font-size="12">MAGNET</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="space-y-2.5 text-xs sm:text-sm font-bold text-slate-800">
+            <div id="magnet-status" class="bg-white p-3.5 rounded-xl border-2 border-slate-900">
+              ⚠️ <strong>Safety Rule:</strong> Do NOT reach into sharp nails or iron thumbtacks with bare hands! A thumbtack and a lentil have similar sizes, so a sieve cannot separate them — use a <strong>magnet</strong> because <strong>iron</strong> is magnetic and attracted to a magnet!
+            </div>
+            <div class="bg-emerald-100 p-3.5 rounded-xl border-2 border-slate-900">
+              📦 <strong>Joe’s Box (Sand + Sharp Iron Nails + Stones):</strong><br />
+              • <strong>Step 1:</strong> Use a <strong>magnet</strong> to pull out the sharp iron nails safely (iron is magnetic).<br />
+              • <strong>Step 2:</strong> Use a <strong>sieve</strong> to separate the stones from the sand because stones and sand have different sizes!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C. Separating Insoluble Solid + Liquid with a Sieve -->
+      <div class="comic-card bg-amber-50 rounded-3xl p-5 sm:p-6 space-y-3">
+        <h3 class="text-xl font-bold text-slate-900">
+          🫗 Separation Method 3: Insoluble Solid + Liquid Through a Sieve!
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm font-bold">
+          <div class="bg-white p-4 rounded-2xl border-2 border-slate-900">
+            <p class="font-comic text-base text-slate-900 mb-1">🪨 + 💧 Stones and Water</p>
+            <p>• <strong>Left on the sieve:</strong> Stones (too big for the holes!)</p>
+            <p>• <strong>Pass through the sieve:</strong> Water</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border-2 border-slate-900">
+            <p class="font-comic text-base text-slate-900 mb-1">⏳ + 💧 Sand and Water (Wide Sieve)</p>
+            <p>• <strong>Left on wide sieve:</strong> None (sand grains are tiny!)</p>
+            <p>• <strong>Pass through wide sieve:</strong> Both sand and water pass through together!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- SECTION 5: INTERACTIVE QUIZ + WORD SOLVING CHALLENGE        -->
+    <!-- =========================================================== -->
+    <section id="sec-quiz" class="hidden space-y-6 animate-pop">
+      <!-- Quiz Banner with Brand Logo & Credit -->
+      <div class="comic-card bg-gradient-to-r from-yellow-300 via-amber-300 to-emerald-300 rounded-3xl p-5 sm:p-6 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="bg-white p-2 rounded-2xl border-2 border-slate-900 shrink-0 flex items-center">
+            <img
+              src="Sujato andika nanda (7).png"
+              alt="IMPROVE Logo"
+              class="h-10 sm:h-12 w-auto object-contain"
+              onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+            />
+            <span class="hidden font-comic font-extrabold text-slate-900 text-xs sm:text-sm">↗ IMPROVE</span>
+          </div>
+          <div>
+            <span class="bg-slate-900 text-yellow-300 font-comic text-xs px-3 py-1 rounded-full">
+              🏆 CHAPTER 6 QUIZ • MAKE BY : SUJATO ANDIKA NANDA, PC®
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
+              Mixtures &amp; Separation Quiz + Word Solving!
+            </h2>
+            <p class="text-xs sm:text-sm font-bold text-slate-800">
+              Solve all <strong>8 Word Puzzles</strong> and all <strong>6 Quiz Questions</strong> with explanations to earn your certificate!
+            </p>
+          </div>
+        </div>
+
+        <button onclick="resetQuizSection()" class="comic-btn bg-white hover:bg-slate-100 font-comic text-xs sm:text-sm px-4 py-2 rounded-xl">
+          🔄 Reset Quiz
+        </button>
+      </div>
+
+      <!-- PART A: WORD SOLVING & SCRAMBLE DETECTIVE -->
+      <div class="comic-card bg-white rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="bg-emerald-400 text-slate-900 font-comic text-xs px-3 py-1 rounded-full border-2 border-slate-900">
+              🔤 PART A: WORD SOLVING &amp; SCRAMBLE DETECTIVE
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+              Unscramble &amp; Solve the Science Words!
+            </h3>
+          </div>
+          <span id="word-progress-badge" class="bg-yellow-200 border-2 border-slate-900 font-comic text-xs sm:text-sm px-3 py-1 rounded-xl">
+            0 / 8 Solved
+          </span>
+        </div>
+
+        <div id="word-challenges-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+      <!-- PART B: MULTIPLE CHOICE QUIZ WITH DETAILED EXPLANATIONS -->
+      <div class="comic-card bg-emerald-50 rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h3 class="text-xl sm:text-2xl font-bold text-slate-900">
+            😂 Part B: Funny Science Quiz &amp; Explanations!
+          </h3>
+          <span id="mcq-progress-badge" class="bg-white border-2 border-slate-900 font-comic text-xs sm:text-sm px-3 py-1 rounded-xl">
+            0 / 6 Answered
+          </span>
+        </div>
+
+        <div id="quiz-mcq-list" class="space-y-4">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+      <!-- Completion Certificate -->
+      <div id="certificate-box" class="hidden comic-card bg-gradient-to-br from-yellow-100 via-emerald-50 to-sky-100 rounded-3xl p-6 sm:p-8 text-center border-4 border-slate-900 space-y-4">
+        <div class="flex justify-center items-center gap-3">
+          <div class="bg-white px-3 py-1.5 rounded-2xl border-2 border-slate-900 inline-flex items-center">
+            <img
+              src="Sujato andika nanda (7).png"
+              alt="IMPROVE Logo"
+              class="h-10 w-auto object-contain"
+              onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+            />
+            <span class="hidden font-comic font-extrabold text-slate-900 text-sm">↗ IMPROVE</span>
+          </div>
+          <span class="text-4xl">🏆🎓✨</span>
+        </div>
+
+        <span class="bg-emerald-400 text-slate-900 font-comic text-xs px-4 py-1 rounded-full border-2 border-slate-900">
+          OFFICIAL CHAPTER 6 ACHIEVEMENT
+        </span>
+
+        <h2 class="text-2xl sm:text-4xl font-bold text-slate-900">
+          Master of Mixtures &amp; Separation!
+        </h2>
+
+        <p class="text-sm sm:text-base font-bold text-slate-700 max-w-xl mx-auto">
+          Congratulations on solving the Word Solving puzzles, mastering dissolving, sieving, and magnets, and helping Cyrus &amp; Tim!
+        </p>
+
+        <div class="inline-block bg-white px-6 py-2.5 rounded-2xl border-2 border-slate-900 font-comic text-lg sm:text-xl text-emerald-700">
+          Final Score: <span id="cert-final-score">0</span> Points ⭐
+        </div>
+
+        <div>
+          <p class="inline-block bg-white/90 px-4 py-1.5 rounded-xl border border-slate-900 text-xs sm:text-sm font-extrabold text-slate-900">
+            Make by : Sujato Andika Nanda, PC®
+          </p>
+        </div>
+
+        <div class="pt-2 flex flex-wrap justify-center gap-3">
+          <button onclick="launchConfetti()" class="comic-btn bg-yellow-300 hover:bg-yellow-400 font-comic text-sm sm:text-base px-5 py-2.5 rounded-xl">
+            🎉 More Confetti!
+          </button>
+          <button onclick="window.print()" class="comic-btn bg-sky-300 hover:bg-sky-400 font-comic text-sm sm:text-base px-5 py-2.5 rounded-xl">
+            🖨️ Print Certificate
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer with Logo & Exact Credit -->
+  <footer class="bg-slate-900 text-slate-200 py-5 px-4 text-xs sm:text-sm border-t-4 border-emerald-400 mt-8">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="flex items-center gap-3">
+        <div class="bg-white px-2.5 py-1 rounded-xl border border-slate-700 inline-flex items-center">
+          <img
+            src="Sujato andika nanda (7).png"
+            alt="IMPROVE Logo"
+            class="h-7 w-auto object-contain"
+            onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+          />
+          <span class="hidden font-comic font-extrabold text-slate-900 text-xs">↗ IMPROVE</span>
+        </div>
+        <span class="font-semibold">
+          🧪 Chapter 6: Mixtures and Separation Interactive Learning Module
+        </span>
+      </div>
+      <span class="font-comic font-bold text-yellow-300">
+        Make by : Sujato Andika Nanda, PC®
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    // ---------------------------------------------------------
+    // 1. SCORE, NAVIGATION & TOAST FEEDBACK
+    // ---------------------------------------------------------
+    let labScore = 0;
+
+    function awardScore(points, label) {
+      labScore += points;
+      document.getElementById('score-display').textContent = labScore;
+      showToast(label);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('sfx-toast');
+      const badge = document.getElementById('sfx-text');
+      badge.textContent = message;
+      toast.classList.remove('hidden');
+      badge.classList.remove('animate-pop');
+      void badge.offsetWidth;
+      badge.classList.add('animate-pop');
+
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 1500);
+    }
+
+    function switchTab(tabName) {
+      const tabs = ['camping', 'mixtures', 'dissolve', 'separate', 'quiz'];
+      tabs.forEach(t => {
+        document.getElementById('sec-' + t).classList.add('hidden');
+        document.getElementById('tab-' + t).classList.remove('active');
+      });
+      document.getElementById('sec-' + tabName).classList.remove('hidden');
+      document.getElementById('tab-' + tabName).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ---------------------------------------------------------
+    // 2. CAMPING POT INSPECTOR
+    // ---------------------------------------------------------
+    const campItems = {
+      twig: {
+        title: "Floating Twig — Solid! 🪵",
+        desc: "The twig is a solid floating in river water. It keeps its stick shape and can be removed from the water.",
+        tip: "✅ Cyrus can scoop or sieve out the solid twigs from the liquid water!"
+      },
+      leaf: {
+        title: "Floating Leaf — Solid! 🍃",
+        desc: "Leaves are solids too! Mixing leaves and river water creates a solid/liquid mixture, and the leaf retains its shape.",
+        tip: "✅ A strainer or sieve catches floating leaves easily!"
+      },
+      pebble: {
+        title: "River Pebble — Insoluble Solid! 🪨",
+        desc: "Pebbles are solids that do not dissolve in water. They sink or sit in the mixture and can be separated.",
+        tip: "✅ Pouring through a sieve or picking out large pebbles separates them from water!"
+      }
+    };
+
+    function inspectCampItem(key) {
+      const item = campItems[key];
+      document.getElementById('camp-title').textContent = item.title;
+      document.getElementById('camp-desc').textContent = item.desc;
+      document.getElementById('camp-tip').innerHTML = item.tip;
+      awardScore(10, "CLUE FOUND! +10 ⭐");
+    }
+
+    // ---------------------------------------------------------
+    // 3. BALL MIXER & DISSOLVE & MAGNET LABS
+    // ---------------------------------------------------------
+    function mixBallsDemo() {
+      const res = document.getElementById('ball-mix-result');
+      res.classList.remove('animate-pop');
+      void res.offsetWidth;
+      res.classList.add('animate-pop');
+      res.innerHTML = "🌀 <strong>Mixed!</strong> Blue plastic balls are still hard &amp; smooth, and red sponge balls are still soft &amp; rough — properties <strong>do not change</strong>!";
+      awardScore(10, "PROPERTIES RETAINED! +10 ⭐");
+    }
+
+    function runDissolveTest(type) {
+      const sandLayer = document.getElementById('sand-layer');
+      const saltParticles = document.getElementById('salt-particles');
+      const massReadout = document.getElementById('mass-readout');
+      const title = document.getElementById('dissolve-title');
+      const desc = document.getElementById('dissolve-desc');
+
+      if (type === 'salt') {
+        sandLayer.classList.add('hidden');
+        saltParticles.classList.remove('hidden');
+        massReadout.textContent = "Water + 5g Salt = +5g Heavier!";
+        massReadout.className = "bg-emerald-200 px-3 py-1 rounded-lg border border-slate-900";
+        title.textContent = "Salt is a Soluble Solid (Solute)!";
+        desc.innerHTML = "Salt dissolves in water and seems to disappear. After adding <strong>5 g of salt</strong> to water, the water becomes <strong>5 g heavier</strong>! The salt is still there, just too tiny to see.";
+        showToast("DISSOLVED! 🧂💧");
+      } else {
+        sandLayer.classList.remove('hidden');
+        saltParticles.classList.add('hidden');
+        massReadout.textContent = "Sand Stays Visible (Insoluble)";
+        massReadout.className = "bg-amber-200 px-3 py-1 rounded-lg border border-slate-900";
+        title.textContent = "Sand is an Insoluble Solid!";
+        desc.innerHTML = "Sand <strong>cannot dissolve</strong> in water! It is an <strong>insoluble solid</strong> and stays visible as solid grains in the water.";
+        showToast("INSOLUBLE SAND! 🏖️");
+      }
+    }
+
+    function runMagnetRescue() {
+      const lifted = document.getElementById('lifted-metals');
+      const status = document.getElementById('magnet-status');
+      lifted.style.transition = "transform 0.45s ease";
+      lifted.style.transform = "translateY(-48px)";
+      status.innerHTML = "🧲 <strong>ZAP! Magnet Rescue!</strong> The magnetic iron/steel pieces jump up to the magnet while non-magnetic rice, penne, and sand stay behind!";
+      awardScore(15, "MAGNET RESCUE! +15 ⭐");
+      setTimeout(() => {
+        lifted.style.transform = "translateY(0px)";
+      }, 1800);
+    }
+
+    // ---------------------------------------------------------
+    // 4. WORD SOLVING & SCRAMBLE DETECTIVE (8 WORDS)
+    // ---------------------------------------------------------
+    const wordChallenges = [
+      {
+        id: 'wc1',
+        scrambled: 'T X M U R I E',
+        clue: 'Two or more materials together that can be physically separated. (1 word)',
+        hint: 'Starts with M — like sand + stones or nuts + raisins! 🥣',
+        answer: 'MIXTURE',
+        explain: 'A MIXTURE contains two or more materials that can be physically separated.'
+      },
+      {
+        id: 'wc2',
+        scrambled: 'L S O U T E',
+        clue: 'A solid that can dissolve in a liquid to form a mixture. (1 word)',
+        hint: 'Starts with S — salt or sugar in water! 🧂',
+        answer: 'SOLUTE',
+        explain: 'Salt is a SOLUTE because it dissolves in water.'
+      },
+      {
+        id: 'wc3',
+        scrambled: 'V O S N L E T',
+        clue: 'The liquid in which a solid dissolves. (1 word)',
+        hint: 'Starts with S — water is the most common one! 💧',
+        answer: 'SOLVENT',
+        explain: 'Water is the SOLVENT when salt or sugar dissolves in it.'
+      },
+      {
+        id: 'wc4',
+        scrambled: 'S D I O S L V E',
+        clue: 'What salt and sugar do when mixed into water so tiny bits spread out evenly. (1 word)',
+        hint: 'Starts with D — seems to disappear, yet weight still increases! ✨',
+        answer: 'DISSOLVE',
+        explain: 'Soluble solids DISSOLVE in liquids, even though they become too small to see.'
+      },
+      {
+        id: 'wc5',
+        scrambled: 'E S V I E',
+        clue: 'Tool with holes used to separate solids of different sizes. (1 word)',
+        hint: 'Starts with S — separates penne, lentils, rice & salt by size! 🕸️',
+        answer: 'SIEVE',
+        explain: 'A SIEVE lets smaller solids pass through its holes while holding bigger solids back.'
+      },
+      {
+        id: 'wc6',
+        scrambled: 'G N A E T M',
+        clue: 'Used to safely pull magnetic iron thumbtacks or nails out of a mixture. (1 word)',
+        hint: 'Starts with M — attracts iron and steel clips! 🧲',
+        answer: 'MAGNET',
+        explain: 'A MAGNET separates magnetic materials like iron nails from non-magnetic solids.'
+      },
+      {
+        id: 'wc7',
+        scrambled: 'I L U S N O L B E',
+        clue: 'Describes a solid like sand that CANNOT dissolve in a liquid. (1 word)',
+        hint: 'Starts with I — opposite of soluble! 🏖️',
+        answer: 'INSOLUBLE',
+        explain: 'Sand is INSOLUBLE in water because it does not dissolve.'
+      },
+      {
+        id: 'wc8',
+        scrambled: 'R A T E N I',
+        clue: 'To continue to keep something — materials usually do this to their properties in a mixture. (1 word)',
+        hint: 'Starts with R — balls keep being hard/soft or smooth/rough! 🔒',
+        answer: 'RETAIN',
+        explain: 'Materials usually RETAIN (keep) their properties within a mixture.'
+      }
+    ];
+
+    let solvedWordsCount = 0;
+
+    function renderWordChallenges() {
+      const grid = document.getElementById('word-challenges-grid');
+      grid.innerHTML = wordChallenges.map((w, idx) => `
+        <div id="wcard-${w.id}" class="comic-card-sm bg-slate-50 rounded-2xl p-4 space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <span class="bg-emerald-200 text-slate-900 font-comic text-xs px-2.5 py-1 rounded-full border border-slate-900">
+              Word #${idx + 1}
+            </span>
+            <span class="bg-yellow-200 text-slate-900 font-comic text-sm tracking-widest px-3 py-1 rounded-xl border-2 border-slate-900">
+              ${w.scrambled}
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm font-bold text-slate-800">${w.clue}</p>
+
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              id="win-${w.id}"
+              placeholder="Solve word..."
+              onkeydown="if(event.key==='Enter') solveWord('${w.id}')"
+              class="flex-1 px-3 py-2 rounded-xl border-2 border-slate-900 font-bold text-xs sm:text-sm uppercase bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            />
+            <button onclick="solveWord('${w.id}')" id="wcheck-${w.id}" class="comic-btn bg-emerald-400 hover:bg-emerald-500 font-comic text-xs px-3.5 py-2 rounded-xl">
+              Solve ✓
+            </button>
+            <button onclick="toggleWordHint('${w.id}')" class="comic-btn bg-amber-200 hover:bg-amber-300 font-comic text-xs px-3 py-2 rounded-xl">
+              💡 Hint
+            </button>
+          </div>
+
+          <p id="whint-${w.id}" class="hidden text-xs font-bold text-amber-900 bg-amber-100 p-2 rounded-lg border border-amber-400"></p>
+          <p id="wres-${w.id}" class="hidden text-xs font-bold p-2.5 rounded-xl border-2 border-slate-900"></p>
+        </div>
+      `).join('');
+    }
+
+    function toggleWordHint(id) {
+      const w = wordChallenges.find(item => item.id === id);
+      const hint = document.getElementById('whint-' + id);
+      hint.textContent = w.hint;
+      hint.classList.remove('hidden');
+      showToast("HINT REVEALED! 💡");
+    }
+
+    function solveWord(id) {
+      const w = wordChallenges.find(item => item.id === id);
+      const input = document.getElementById('win-' + id);
+      const btn = document.getElementById('wcheck-' + id);
+      const res = document.getElementById('wres-' + id);
+      const card = document.getElementById('wcard-' + id);
+
+      if (input.disabled) return;
+
+      const guess = input.value.trim().toUpperCase().replace(/\s+/g, '');
+      res.classList.remove('hidden');
+
+      if (guess === w.answer) {
+        input.disabled = true;
+        btn.disabled = true;
+        input.value = w.answer;
+        card.classList.replace('bg-slate-50', 'bg-emerald-50');
+        res.className = "text-xs font-bold p-2.5 rounded-xl border-2 border-slate-900 bg-emerald-200 text-emerald-950";
+        res.textContent = `🎉 Correct (${w.answer})! ${w.explain}`;
+        solvedWordsCount++;
+        document.getElementById('word-progress-badge').textContent = `${solvedWordsCount} / ${wordChallenges.length} Solved`;
+        awardScore(20, "WORD CRACKED! +20 ⭐");
+        checkQuizCompletion();
+      } else {
+        res.className = "text-xs font-bold p-2.5 rounded-xl border-2 border-slate-900 bg-rose-100 text-rose-900";
+        res.textContent = "😜 Not quite! Check the scrambled letters or tap 💡 Hint.";
+        card.classList.add('animate-wobble');
+        setTimeout(() => card.classList.remove('animate-wobble'), 380);
+        showToast("TRY AGAIN! 🔤");
+      }
+    }
+
+    // ---------------------------------------------------------
+    // 5. MULTIPLE CHOICE QUIZ WITH EXPLANATIONS (6 QUESTIONS)
+    // ---------------------------------------------------------
+    const quizMcqs = [
+      {
+        q: "1. After adding 5 g of salt to water and stirring until it seems to disappear, what happens to the mass?",
+        options: [
+          "The water becomes 5 g heavier because the salt is still in the water!",
+          "The salt vanished into thin air so the weight goes down.",
+          "The salt turned into a solid rock at the bottom."
+        ],
+        correct: 0,
+        explanation: "Salt is soluble in water: it breaks into tiny invisible particles, so the total mass still increases by 5 g!"
+      },
+      {
+        q: "2. Which list shows solids in order from SMALLEST to BIGGEST size?",
+        options: [
+          "Penne ➔ Lentils ➔ Rice grains ➔ Fine salt",
+          "Fine salt ➔ Rice grains ➔ Lentils ➔ Penne",
+          "Rice grains ➔ Fine salt ➔ Penne ➔ Lentils"
+        ],
+        correct: 1,
+        explanation: "Fine salt is smallest, followed by rice grains, then lentils, and penne pasta is the biggest!"
+      },
+      {
+        q: "3. Joe has sand, sharp iron nails, and stones in a box. How should he separate them safely?",
+        options: [
+          "Grab all the sharp nails with bare hands first.",
+          "Use a magnet for the magnetic iron nails, then a sieve to separate stones from sand.",
+          "Melt the whole box in a campfire."
+        ],
+        correct: 1,
+        explanation: "A magnet safely attracts magnetic iron nails without hurting Joe's hands, and a sieve separates stones from sand by size."
+      },
+      {
+        q: "4. Jerry mixes sugar with salt in Cup 2. What happens to the properties of sugar?",
+        options: [
+          "Sugar turns into a liquid.",
+          "Sugar loses its sweetness forever.",
+          "Sugar retains its properties and still looks and feels the same."
+        ],
+        correct: 2,
+        explanation: "In a mixture, materials generally retain their properties — sugar and salt stay just as they are!"
+      },
+      {
+        q: "5. What happens when you pour a mixture of STONES and WATER through a sieve?",
+        options: [
+          "Stones stay on the sieve and water passes through.",
+          "Water stays on the sieve and stones pass through.",
+          "Both disappear through the sieve."
+        ],
+        correct: 0,
+        explanation: "Stones are bigger than the sieve holes so they stay on top, while liquid water flows through."
+      },
+      {
+        q: "6. Why can't a sieve separate iron thumbtacks from lentils of a similar size?",
+        options: [
+          "Because thumbtacks and lentils have similar sizes, so a magnet is better for magnetic thumbtacks!",
+          "Because sieves only work on liquids.",
+          "Because thumbtacks are invisible."
+        ],
+        correct: 0,
+        explanation: "Since thumbtacks and lentils have similar sizes, a sieve cannot tell them apart — a magnet easily pulls out the iron thumbtacks!"
+      }
+    ];
+
+    let answeredMcqCount = 0;
+
+    function renderQuizMcqs() {
+      const list = document.getElementById('quiz-mcq-list');
+      list.innerHTML = quizMcqs.map((item, qIdx) => `
+        <div id="mcq-card-${qIdx}" class="comic-card-sm bg-white rounded-2xl p-4 sm:p-5 space-y-3">
+          <h4 class="font-comic font-bold text-sm sm:text-base text-slate-900">${item.q}</h4>
+          <div class="space-y-2">
+            ${item.options.map((opt, oIdx) => `
+              <button onclick="selectMcqOption(${qIdx}, ${oIdx})" id="mcq-opt-${qIdx}-${oIdx}" class="comic-btn bg-slate-50 hover:bg-emerald-100 text-left font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl w-full">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="mcq-exp-${qIdx}" class="hidden text-xs sm:text-sm font-bold p-3 rounded-xl border-2 border-slate-900"></div>
+        </div>
+      `).join('');
+    }
+
+    function selectMcqOption(qIdx, oIdx) {
+      const item = quizMcqs[qIdx];
+      const exp = document.getElementById(`mcq-exp-${qIdx}`);
+      const card = document.getElementById(`mcq-card-${qIdx}`);
+
+      item.options.forEach((_, idx) => {
+        const btn = document.getElementById(`mcq-opt-${qIdx}-${idx}`);
+        btn.disabled = true;
+        if (idx === item.correct) {
+          btn.classList.replace('bg-slate-50', 'bg-emerald-300');
+        } else if (idx === oIdx) {
+          btn.classList.replace('bg-slate-50', 'bg-rose-300');
+        }
+      });
+
+      exp.classList.remove('hidden');
+      if (oIdx === item.correct) {
+        exp.className = "text-xs sm:text-sm font-bold p-3 rounded-xl border-2 border-slate-900 bg-emerald-100 text-emerald-950";
+        exp.textContent = "✅ Spot on! Explanation: " + item.explanation;
+        awardScore(15, "GREAT ANSWER! +15 ⭐");
+      } else {
+        exp.className = "text-xs sm:text-sm font-bold p-3 rounded-xl border-2 border-slate-900 bg-amber-100 text-slate-900";
+        exp.textContent = "💡 Explanation: " + item.explanation;
+        card.classList.add('animate-wobble');
+        showToast("CHECK EXPLANATION! 💡");
+      }
+
+      answeredMcqCount++;
+      document.getElementById('mcq-progress-badge').textContent = `${answeredMcqCount} / ${quizMcqs.length} Answered`;
+      checkQuizCompletion();
+    }
+
+    function checkQuizCompletion() {
+      if (solvedWordsCount === wordChallenges.length && answeredMcqCount === quizMcqs.length) {
+        const cert = document.getElementById('certificate-box');
+        cert.classList.remove('hidden');
+        document.getElementById('cert-final-score').textContent = labScore;
+        launchConfetti();
+        setTimeout(() => {
+          cert.scrollIntoView({ behavior: 'smooth' });
+        }, 350);
+      }
+    }
+
+    function resetQuizSection() {
+      solvedWordsCount = 0;
+      answeredMcqCount = 0;
+      document.getElementById('word-progress-badge').textContent = `0 / ${wordChallenges.length} Solved`;
+      document.getElementById('mcq-progress-badge').textContent = `0 / ${quizMcqs.length} Answered`;
+      document.getElementById('certificate-box').classList.add('hidden');
+      renderWordChallenges();
+      renderQuizMcqs();
+      showToast("QUIZ RESET! 🔄");
+    }
+
+    // ---------------------------------------------------------
+    // 6. CONFETTI CELEBRATION
+    // ---------------------------------------------------------
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const palette = ['#fde047', '#34d399', '#38bdf8', '#fb7185', '#c084fc'];
+      const bits = Array.from({ length: 85 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        w: Math.random() * 10 + 6,
+        h: Math.random() * 8 + 5,
+        color: palette[Math.floor(Math.random() * palette.length)],
+        vy: Math.random() * 4 + 2.5,
+        vx: Math.random() * 2 - 1,
+        angle: Math.random() * 360
+      }));
+
+      let tick = 0;
+      function frame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        bits.forEach(b => {
+          b.y += b.vy;
+          b.x += b.vx;
+          b.angle += 5;
+          ctx.save();
+          ctx.translate(b.x, b.y);
+          ctx.rotate((b.angle * Math.PI) / 180);
+          ctx.fillStyle = b.color;
+          ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+          ctx.restore();
+        });
+        tick++;
+        if (tick < 130) {
+          requestAnimationFrame(frame);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      frame();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderWordChallenges();
+      renderQuizMcqs();
+    });
+  </script>
+</body>
+</html>
